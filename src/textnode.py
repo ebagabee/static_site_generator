@@ -25,4 +25,22 @@ class TextNode:
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
     
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
-    pass
+    if text_node.text_type == TextType.TEXT:
+        return LeafNode(tag=None, value=text_node.text, props=None)
+
+    if text_node.text_type == TextType.BOLD:
+        return LeafNode("b", value=text_node.text, props=None)
+
+    if text_node.text_type == TextType.ITALIC:
+        return LeafNode("i", value=text_node.text, props=None)
+
+    if text_node.text_type == TextType.CODE:
+        return LeafNode("code", value=text_node.text, props=None)
+
+    if text_node.text_type == TextType.LINK:
+        return LeafNode("a", value=text_node.text, props={"href": text_node.url})
+
+    if text_node.text_type == TextType.IMAGE:
+        return LeafNode("img", value="", props={"src": text_node.url, "alt": text_node.text})
+
+    raise ValueError("Invalid type")
